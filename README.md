@@ -4,7 +4,7 @@
 
 ## 🚀 Key Features
 
-### ⚡ V2 HoverSync Engine (New)
+### ⚡ V1 HoverSync Engine (New)
 - **Combined Animations**: Scale, Rotate, Move, and Filter effects now work **simultaneously** on the same target.
 - **Custom CSS Row**: Add any valid CSS properties (borderRadius, skew, border, etc.) directly in the effect repeater.
 - **Improved Performance**: Ultra-lightweight logic with hardware-accelerated transitions.
