@@ -1,0 +1,125 @@
+/* 
+ * HoverSync Pro - Ultra-Contrast Editor UI (v2.7)
+ * Maximum visibility for labels and absolute border cleanup.
+ */
+
+/* ==========================================================
+   1. HIGHEST PRIORITY THEME OVERRIDES
+   ========================================================== */
+
+/* Universal Label Visibility Refinement */
+[class*="elementor-control-ehep_"] .elementor-control-title,
+[class*="elementor-control-ehep_"] .elementor-control-label,
+[class*="elementor-control-ehep_"] label,
+[class*="elementor-control-ehep_"] .elementor-repeater-row-item-title,
+.elementor-control-section-ehep_hover_effects_section .elementor-control-title {
+    font-weight: 700 !important;
+    opacity: 1 !important;
+    font-size: 13px !important;
+}
+
+/* Ensure headings are prominent but follow theme colors */
+.elementor-control-ehep_hover_effects_section .elementor-control-type-heading .elementor-control-title {
+    font-weight: 800 !important;
+    opacity: 1 !important;
+}
+
+/* ==========================================================
+   2. BORDER & SEPARATOR KILLS
+   ========================================================== */
+
+/* Destroy all dashed lines and default separators */
+[class*="elementor-control-ehep_"]:after,
+[class*="elementor-control-ehep_"]:before,
+.elementor-control-section-ehep_hover_effects_section .elementor-control:after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+}
+
+[class*="elementor-control-ehep_"] {
+    border: none !important;
+    padding: 12px 15px !important;
+}
+
+/* ==========================================================
+   3. PREMIUM SECTION BRANDING
+   ========================================================== */
+
+.elementor-control-ehep_hover_effects_section.elementor-control-type-section .elementor-panel-heading {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5) !important;
+    padding: 20px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 10px 20px -10px rgba(124, 58, 237, 0.8) !important;
+    border: none !important;
+}
+
+.elementor-control-ehep_hover_effects_section.elementor-control-type-section .elementor-panel-heading-title {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+}
+
+/* ==========================================================
+   4. CONTROL COMPONENT REFINEMENT (Bento Style)
+   ========================================================== */
+
+/* Field Descriptions - Solid & Visible */
+[class*="elementor-control-ehep_"] .elementor-control-field-description {
+    background: rgba(124, 58, 237, 0.05) !important;
+    border-left: 3px solid #7c3aed !important;
+    padding: 10px !important;
+    margin-top: 8px !important;
+    font-size: 11px !important;
+    border-radius: 0 4px 4px 0;
+}
+
+.elementor-editor-dark [class*="elementor-control-ehep_"] .elementor-control-field-description {
+    color: #d1d5db !important; /* Dark mode description */
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Inputs & Selects Contrast - Subtle background only */
+.elementor-control-ehep_hover_effects_section select,
+.elementor-control-ehep_hover_effects_section input[type="text"],
+.elementor-control-ehep_hover_effects_section textarea {
+    border: 1px solid rgba(124, 58, 237, 0.2) !important;
+    border-radius: 4px !important;
+}
+
+/* Heading Typography - Structural only */
+.elementor-control-ehep_hover_effects_section .elementor-control-type-heading .elementor-control-title {
+    text-transform: uppercase;
+    font-weight: 800 !important;
+    padding-bottom: 10px !important;
+    border-bottom: 2px solid rgba(124, 58, 237, 0.2) !important;
+    margin-top: 30px !important;
+    display: block !important;
+}
+
+/* ==========================================================
+   5. REPEATER & ACTION BUTTONS
+   ========================================================== */
+
+.elementor-control-ehep_targets .elementor-repeater-fields {
+
+    border: 1px solid #c4c4c49e !important;
+    padding: 15px !important;
+    border-radius: 10px !important;
+}
+
+
+.elementor-control-ehep_targets .elementor-repeater-add {
+    background: #7c3aed !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+    padding: 12px 20px !important;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.4) !important;
+}
+
+/* Switcher fix */
+.elementor-control-ehep_enable .elementor-switch-on {
+    background-color: #7c3aed !important;
+}
