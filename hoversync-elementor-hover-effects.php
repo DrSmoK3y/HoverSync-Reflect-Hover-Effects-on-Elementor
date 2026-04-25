@@ -6,6 +6,7 @@
  * Version: 1.0.0
  * Author: LM Designers x DrSmoK3y
  * Author URI: https://github.com/DrSmoK3y
+ * Plugin URI: https://github.com/DrSmoK3y/HoverSync-Reflect-Hover-Effects-on-Elementor
  * Text Domain: hoversync-elementor-hover-effects
  * Requires at least: 5.8
  * Requires PHP: 7.4
