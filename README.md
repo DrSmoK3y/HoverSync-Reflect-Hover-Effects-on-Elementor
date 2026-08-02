@@ -1,4 +1,4 @@
-# HoverSync Pro for Elementor
+# HoverSync Pro for Elementor - BETA
 
 **HoverSync Pro** transforms Elementor hover effects into a high-precision global interaction system. Trigger complex animations on any element from any source with zero coding, now featuring the **V2 HoverSync Engine**.
 
