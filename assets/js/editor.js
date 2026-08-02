@@ -31,7 +31,42 @@
             setTimeout(() => {
                 this.initPresetSelector();
                 this.initLivePreview();
+                this.enhanceRepeaterTitles();
             }, 100);
+        }
+
+        enhanceRepeaterTitles() {
+            // Watch for changes in repeater titles to format them into high-contrast badges
+            const self = this;
+            const formatTitles = () => {
+                $('.elementor-control-ehep_targets .elementor-repeater-row-item-title').each(function() {
+                    const $title = $(this);
+                    if ($title.data('hoversync-enhanced')) return;
+                    $title.data('hoversync-enhanced', true);
+
+                    const rawText = $title.text().trim();
+                    // Example raw format from PHP: <i class="eicon-star"></i> scale > #my-id
+                    // Or standard text format if HTML was stripped
+                    const match = rawText.match(/^(.*?)\s*>\s*(.*)$/);
+                    if (match) {
+                        const effect = match[1].replace(/eicon-[a-z-]+/g, '').trim();
+                        const selector = match[2].trim();
+                        $title.html(`
+                            <span class="ehep-badge-effect">${effect}</span>
+                            <span class="ehep-badge-arrow">➜</span>
+                            <span class="ehep-badge-selector">${selector || 'No Target'}</span>
+                        `);
+                    }
+                });
+            };
+
+            // Run instantly & set up observer for future additions
+            formatTitles();
+            const observer = new MutationObserver(formatTitles);
+            const panelEl = document.getElementById('elementor-panel');
+            if (panelEl) {
+                observer.observe(panelEl, { childList: true, subtree: true });
+            }
         }
 
         enhanceControls() {
@@ -89,36 +124,35 @@
             if (preset.effects && preset.effects.length > 0) {
                 const targets = preset.effects.map(effect => {
                     const target = {
-                        target_selector: '',
+                        target_selector: '.your-target-class',
                         effect_type: effect.effect_type || 'scale',
                         effect_duration: effect.effect_duration || 300,
-                        effect_delay: effect.effect_delay || 0,
-                        effect_easing: effect.effect_easing || 'ease-out'
+                        effect_easing: effect.effect_easing || 'ease'
                     };
                     
-                    // Set appropriate value field based on effect type
                     const effectType = effect.effect_type || 'scale';
-                    const valueKey = 'effect_value_' + effectType.toLowerCase().replace('-', '');
                     
-                    // Handle different value formats
-                    if (effect.effect_value) {
-                        if (effectType === 'shadow') {
-                            target[valueKey] = this.parseShadowValue(effect.effect_value);
-                        } else if (effectType === 'rotate' || effectType === 'hue-rotate') {
-                            const numValue = parseFloat(effect.effect_value);
-                            target[valueKey] = { size: numValue, unit: 'deg' };
-                        } else if (effectType === 'translateX' || effectType === 'translateY') {
-                            const numValue = parseFloat(effect.effect_value);
+                    if (effect.effect_value !== undefined) {
+                        if (effectType === 'scale') {
+                            target.effect_value_scale = { size: parseFloat(effect.effect_value) };
+                        } else if (['rotate', 'skewX', 'skewY'].includes(effectType)) {
+                            target.effect_value_rotate = { size: parseFloat(effect.effect_value), unit: 'deg' };
+                        } else if (['translateX', 'translateY'].includes(effectType)) {
+                            const size = parseFloat(effect.effect_value);
                             const unit = effect.effect_value.includes('%') ? '%' : 'px';
-                            target[valueKey] = { size: numValue, unit: unit };
-                        } else if (effectType === 'blur') {
-                            const numValue = parseFloat(effect.effect_value);
-                            target[valueKey] = { size: numValue, unit: 'px' };
+                            target.effect_value_translate = { size: size, unit: unit };
+                        } else if (['opacity', 'grayscale', 'blur'].includes(effectType)) {
+                            // Blur filter uses value multiplier of 10 inside the resolver, so let's adjust or leave direct
+                            const size = parseFloat(effect.effect_value);
+                            target.effect_value_intensity = { size: effectType === 'blur' ? size / 10 : size };
+                        } else if (['brightness', 'saturate'].includes(effectType)) {
+                            target.effect_value_filter_multiplier = { size: parseFloat(effect.effect_value) };
+                        } else if (effectType === 'hue-rotate') {
+                            target.effect_value_hue = { size: parseFloat(effect.effect_value) };
                         } else if (effectType === 'background') {
-                            target[valueKey] = effect.effect_value;
-                        } else {
-                            const numValue = parseFloat(effect.effect_value);
-                            target[valueKey] = { size: numValue };
+                            target.effect_value_color = effect.effect_value;
+                        } else if (effectType === 'custom') {
+                            target.effect_value_custom = effect.effect_value;
                         }
                     }
                     

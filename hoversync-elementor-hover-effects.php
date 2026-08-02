@@ -56,6 +56,7 @@ final class Elementor_Hover_Effects_Pro {
     
     private function includes() {
         require_once EHEP_PATH . 'includes/class-database.php';
+        require_once EHEP_PATH . 'includes/class-preset-manager.php';
         require_once EHEP_PATH . 'includes/class-controls.php';
         require_once EHEP_PATH . 'includes/class-renderer.php';
         require_once EHEP_PATH . 'includes/class-ajax-handler.php';
