@@ -36,6 +36,10 @@
         }
 
         setupElement(el, data) {
+            // Prevent duplicate bindings
+            if (el.dataset.hoversyncBound) return;
+            el.dataset.hoversyncBound = 'true';
+
             // Only bind events if it's a source or hybrid
             if (data.role === 'source' || data.role === 'both') {
                 el.addEventListener('mouseenter', () => this.handleHover(data, true));
@@ -74,39 +78,92 @@
         }
 
         applyEffects(el, effects) {
+            // Backup original inline styles for transitions and properties if not already done
+            if (el.dataset.hoversyncOriginalTransition === undefined) {
+                el.dataset.hoversyncOriginalTransition = el.style.transition || '';
+            }
+
             let transforms = [];
             let filters = [];
-            let maxDuration = 0;
+            let transitions = [];
 
             effects.forEach(fx => {
-                maxDuration = Math.max(maxDuration, fx.dur);
+                const duration = fx.dur !== undefined ? fx.dur : 300;
+                const easing = fx.eas || 'ease';
 
                 switch(fx.type) {
-                    case 'scale': transforms.push(`scale(${fx.val})`); break;
-                    case 'rotate': transforms.push(`rotate(${fx.val})`); break;
-                    case 'translateX': transforms.push(`translateX(${fx.val})`); break;
-                    case 'translateY': transforms.push(`translateY(${fx.val})`); break;
-                    case 'opacity': el.style.opacity = fx.val; break;
-                    case 'blur': filters.push(`blur(${fx.val})`); break;
-                    case 'grayscale': filters.push(`grayscale(${fx.val})`); break;
-                    case 'background': el.style.backgroundColor = fx.val; break;
-                    case 'custom': this.applyCustomStyles(el, fx.val); break;
+                    case 'scale':
+                        transforms.push(`scale(${fx.val})`);
+                        transitions.push(`transform ${duration}ms ${easing}`);
+                        break;
+                    case 'rotate':
+                        transforms.push(`rotate(${fx.val})`);
+                        transitions.push(`transform ${duration}ms ${easing}`);
+                        break;
+                    case 'skewX':
+                        transforms.push(`skewX(${fx.val})`);
+                        transitions.push(`transform ${duration}ms ${easing}`);
+                        break;
+                    case 'skewY':
+                        transforms.push(`skewY(${fx.val})`);
+                        transitions.push(`transform ${duration}ms ${easing}`);
+                        break;
+                    case 'translateX':
+                        transforms.push(`translateX(${fx.val})`);
+                        transitions.push(`transform ${duration}ms ${easing}`);
+                        break;
+                    case 'translateY':
+                        transforms.push(`translateY(${fx.val})`);
+                        transitions.push(`transform ${duration}ms ${easing}`);
+                        break;
+                    case 'opacity':
+                        el.style.opacity = fx.val;
+                        transitions.push(`opacity ${duration}ms ${easing}`);
+                        break;
+                    case 'blur':
+                        filters.push(`blur(${fx.val})`);
+                        transitions.push(`filter ${duration}ms ${easing}`);
+                        break;
+                    case 'grayscale':
+                        filters.push(`grayscale(${fx.val})`);
+                        transitions.push(`filter ${duration}ms ${easing}`);
+                        break;
+                    case 'brightness':
+                        filters.push(`brightness(${fx.val})`);
+                        transitions.push(`filter ${duration}ms ${easing}`);
+                        break;
+                    case 'saturate':
+                        filters.push(`saturate(${fx.val})`);
+                        transitions.push(`filter ${duration}ms ${easing}`);
+                        break;
+                    case 'hue-rotate':
+                        filters.push(`hue-rotate(${fx.val})`);
+                        transitions.push(`filter ${duration}ms ${easing}`);
+                        break;
+                    case 'background':
+                        el.style.backgroundColor = fx.val;
+                        transitions.push(`background-color ${duration}ms ${easing}`);
+                        break;
+                    case 'custom':
+                        this.applyCustomStyles(el, fx.val, duration, easing, transitions);
+                        break;
                 }
             });
 
-            el.style.transition = `all ${maxDuration}ms ease`;
+            if (transitions.length) {
+                el.style.transition = transitions.join(', ');
+            }
             if (transforms.length) el.style.transform = transforms.join(' ');
             if (filters.length) el.style.filter = filters.join(' ');
         }
 
         resetEffects(el, effects) {
-            let maxDuration = 0;
             effects.forEach(fx => {
-                maxDuration = Math.max(maxDuration, fx.dur);
-
                 switch(fx.type) {
                     case 'scale':
                     case 'rotate':
+                    case 'skewX':
+                    case 'skewY':
                     case 'translateX':
                     case 'translateY':
                         el.style.transform = '';
@@ -116,6 +173,9 @@
                         break;
                     case 'blur':
                     case 'grayscale':
+                    case 'brightness':
+                    case 'saturate':
+                    case 'hue-rotate':
                         el.style.filter = '';
                         break;
                     case 'background':
@@ -126,17 +186,25 @@
                         break;
                 }
             });
-            el.style.transition = `all ${maxDuration}ms ease`;
+
+            // Restore original transition
+            if (el.dataset.hoversyncOriginalTransition !== undefined) {
+                el.style.transition = el.dataset.hoversyncOriginalTransition;
+            } else {
+                el.style.transition = '';
+            }
         }
 
-        applyCustomStyles(el, cssString) {
+        applyCustomStyles(el, cssString, duration, easing, transitions) {
             if (!cssString) return;
             const pairs = cssString.split(';');
             pairs.forEach(pair => {
                 const [prop, val] = pair.split(':');
                 if (prop && val) {
-                    const camelProp = prop.trim().replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+                    const cleanProp = prop.trim();
+                    const camelProp = cleanProp.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
                     el.style[camelProp] = val.trim();
+                    transitions.push(`${cleanProp} ${duration}ms ${easing}`);
                 }
             });
         }

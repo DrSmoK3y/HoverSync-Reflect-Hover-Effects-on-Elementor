@@ -123,3 +123,57 @@
 .elementor-control-ehep_enable .elementor-switch-on {
     background-color: #7c3aed !important;
 }
+
+/* Premium Badges & Repeater Titles formatting */
+.elementor-control-ehep_targets .elementor-repeater-row-item-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+}
+
+.ehep-badge-effect {
+    background: rgba(124, 58, 237, 0.1) !important;
+    color: #7c3aed !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border: 1px solid rgba(124, 58, 237, 0.2) !important;
+}
+
+.ehep-badge-arrow {
+    color: #9ca3af !important;
+    font-weight: 900 !important;
+}
+
+.ehep-badge-selector {
+    background: #1e1b4b !important;
+    color: #f3f4f6 !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    font-size: 11px !important;
+    font-family: monospace !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Enhancing Elementor control panel layout for a gorgeous glassmorphic look */
+.elementor-control-section-ehep_hover_effects_section {
+    background: radial-gradient(circle at top right, rgba(124, 58, 237, 0.05), transparent 60%) !important;
+}
+
+.elementor-control-ehep_targets .elementor-repeater-fields-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important;
+}
+
+/* Soft elegant glow on input focus */
+.elementor-control-ehep_hover_effects_section select:focus,
+.elementor-control-ehep_hover_effects_section input[type="text"]:focus,
+.elementor-control-ehep_hover_effects_section textarea:focus {
+    border-color: #7c3aed !important;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2) !important;
+}

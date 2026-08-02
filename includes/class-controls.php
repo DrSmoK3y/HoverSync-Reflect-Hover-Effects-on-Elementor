@@ -93,6 +93,28 @@ class EHEP_Controls {
             ]
         );
 
+        $presets = ['' => esc_html__('Select a Premium Preset...', 'elementor-hover-effects')];
+        if (class_exists('EHEP_Preset_Manager')) {
+            foreach (EHEP_Preset_Manager::get_presets() as $key => $preset) {
+                $presets[$key] = $preset['name'];
+            }
+        }
+
+        $element->add_control(
+            'ehep_preset',
+            [
+                'label' => esc_html__('🪄 Instant Pro Preset', 'elementor-hover-effects'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'default' => '',
+                'options' => $presets,
+                'description' => esc_html__('Instantly populate the interaction manager with a professional design preset.', 'elementor-hover-effects'),
+                'condition' => [
+                    'ehep_enable' => 'yes',
+                    'ehep_trigger_type!' => 'target',
+                ],
+            ]
+        );
+
         $element->add_control(
             'ehep_heading_effects',
             [
@@ -129,11 +151,16 @@ class EHEP_Controls {
                 'options' => [
                     'scale' => esc_html__('📏 Scale (Zoom)', 'elementor-hover-effects'),
                     'rotate' => esc_html__('🔄 Rotation', 'elementor-hover-effects'),
+                    'skewX' => esc_html__('📐 Skew X', 'elementor-hover-effects'),
+                    'skewY' => esc_html__('📐 Skew Y', 'elementor-hover-effects'),
                     'translateX' => esc_html__('↔ Horizontal Move', 'elementor-hover-effects'),
                     'translateY' => esc_html__('↕ Vertical Move', 'elementor-hover-effects'),
                     'opacity' => esc_html__('👻 Opacity (Fade)', 'elementor-hover-effects'),
                     'blur' => esc_html__('🌫️ Glass Blur', 'elementor-hover-effects'),
                     'grayscale' => esc_html__('🌑 Grayscale', 'elementor-hover-effects'),
+                    'brightness' => esc_html__('💡 Brightness', 'elementor-hover-effects'),
+                    'saturate' => esc_html__('🌈 Saturation', 'elementor-hover-effects'),
+                    'hue-rotate' => esc_html__('🎨 Hue Rotate', 'elementor-hover-effects'),
                     'background' => esc_html__('🎨 Background Color', 'elementor-hover-effects'),
                     'custom' => esc_html__('💻 Custom CSS Properties', 'elementor-hover-effects'),
                 ],
@@ -169,7 +196,7 @@ class EHEP_Controls {
             ]
         );
         
-        // Rotation
+        // Rotation & Skew
         $repeater->add_control(
             'effect_value_rotate',
             [
@@ -178,11 +205,11 @@ class EHEP_Controls {
                 'size_units' => ['deg'],
                 'range' => [ 'deg' => [ 'min' => -360, 'max' => 360 ] ],
                 'default' => [ 'size' => 15, 'unit' => 'deg' ],
-                'condition' => [ 'effect_type' => 'rotate' ],
+                'condition' => [ 'effect_type' => ['rotate', 'skewX', 'skewY'] ],
             ]
         );
 
-        // Opacity & Filters
+        // Opacity & Filters & Intensity (brightness, saturate, hue-rotate etc)
         $repeater->add_control(
             'effect_value_intensity',
             [
@@ -191,6 +218,28 @@ class EHEP_Controls {
                 'range' => [ 'px' => [ 'min' => 0, 'max' => 1, 'step' => 0.1 ] ],
                 'default' => [ 'size' => 0.5 ],
                 'condition' => [ 'effect_type' => ['opacity', 'grayscale', 'blur'] ],
+            ]
+        );
+
+        $repeater->add_control(
+            'effect_value_filter_multiplier',
+            [
+                'label' => esc_html__('Value / Multiplier', 'elementor-hover-effects'),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 5, 'step' => 0.1 ] ],
+                'default' => [ 'size' => 1.5 ],
+                'condition' => [ 'effect_type' => ['brightness', 'saturate'] ],
+            ]
+        );
+
+        $repeater->add_control(
+            'effect_value_hue',
+            [
+                'label' => esc_html__('Hue Rotation Degrees', 'elementor-hover-effects'),
+                'type' => Controls_Manager::SLIDER,
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 360 ] ],
+                'default' => [ 'size' => 90 ],
+                'condition' => [ 'effect_type' => 'hue-rotate' ],
             ]
         );
 
@@ -227,6 +276,23 @@ class EHEP_Controls {
                 'min' => 0,
                 'step' => 50,
                 'description' => esc_html__('Time in milliseconds. 1000ms = 1 second.', 'elementor-hover-effects'),
+            ]
+        );
+
+        $repeater->add_control(
+            'effect_easing',
+            [
+                'label' => esc_html__('Easing Function', 'elementor-hover-effects'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'ease',
+                'options' => [
+                    'ease' => esc_html__('Ease (Default)', 'elementor-hover-effects'),
+                    'linear' => esc_html__('Linear', 'elementor-hover-effects'),
+                    'ease-in' => esc_html__('Ease In', 'elementor-hover-effects'),
+                    'ease-out' => esc_html__('Ease Out', 'elementor-hover-effects'),
+                    'ease-in-out' => esc_html__('Ease In Out', 'elementor-hover-effects'),
+                    'cubic-bezier(0.25, 1, 0.5, 1)' => esc_html__('Bouncy / Snappy', 'elementor-hover-effects'),
+                ],
             ]
         );
 
@@ -267,7 +333,8 @@ class EHEP_Controls {
                     'selector' => $target['target_selector'],
                     'type' => $target['effect_type'],
                     'val' => $this->resolve_value($target),
-                    'dur' => $target['effect_duration']
+                    'dur' => $target['effect_duration'],
+                    'eas' => !empty($target['effect_easing']) ? $target['effect_easing'] : 'ease'
                 ];
             }
         }
@@ -296,7 +363,7 @@ class EHEP_Controls {
              return $target['effect_value_translate']['size'] . ($target['effect_value_translate']['unit'] ?? 'px');
         }
         
-        if ($type === 'rotate') {
+        if ($type === 'rotate' || $type === 'skewX' || $type === 'skewY') {
              return $target['effect_value_rotate']['size'] . 'deg';
         }
         
@@ -306,6 +373,14 @@ class EHEP_Controls {
 
         if ($type === 'blur') {
              return $target['effect_value_intensity']['size'] * 10 . 'px';
+        }
+
+        if ($type === 'brightness' || $type === 'saturate') {
+             return $target['effect_value_filter_multiplier']['size'] ?? 1.0;
+        }
+
+        if ($type === 'hue-rotate') {
+             return ($target['effect_value_hue']['size'] ?? 90) . 'deg';
         }
 
         if ($type === 'background') {
