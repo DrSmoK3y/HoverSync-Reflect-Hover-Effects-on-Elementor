@@ -1,4 +1,4 @@
-# HoverSync Pro — *The Marionettist* --- Under Development
+# HoverSync Pro v1.2.0 — The Marionettist --- Under Development
 ### Next-Gen Cross-Element Interaction, Hover & Scroll Animation Engine for WordPress & Elementor
 
 [![WordPress](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg?style=for-the-badge&logo=wordpress)](https://wordpress.org)
