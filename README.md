@@ -12,7 +12,7 @@
 
 ---
 
-<img src="https://lmwebdesigners.com/wp-content/uploads/2026/09/hoversync.png" width="100%"/>
+<img src="https://lmwebdesigners.com/wp-content/uploads/2026/09/hoversync.png" width="50%"/>
 
 ---
 
