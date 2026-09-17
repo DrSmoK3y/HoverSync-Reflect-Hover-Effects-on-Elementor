@@ -11,8 +11,11 @@
 > Just as a master puppeteer pulls invisible strings to bring multiple distant marionettes to life in perfect synchrony, **HoverSync Pro** connects any trigger element on your page with any number of receiver target elements across the entire DOM tree — without parent-child constraints or coding friction.
 
 ---
-
+<div align="center">
 <img align="center" src="https://lmwebdesigners.com/wp-content/uploads/2026/09/hoversync.png" width="50%"/>
+  
+</div>
+
 
 ---
 
