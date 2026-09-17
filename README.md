@@ -418,9 +418,9 @@ add_filter('hoversync_pro/render_config', function($config, $post_id, $widget_id
 
 ## 👨‍💻 Authors & Credits
 
-- **Architect & Lead Developer**: LM Designers x DrSmoK3y
+- **Architect & Lead Developer**: LM Designers x DrSmoK3y x Creativators
 - **Ecosystem**: Built for the WordPress & Elementor Community
-- **Inspiration**: The art of marionette puppetry & 60FPS fluid motion design
+- **Inspiration**: The art of marionette puppetry from Lord of Mysteries
 
 ---
 
