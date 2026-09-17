@@ -1,0 +1,252 @@
+[data-ehep-hover] {
+    position: relative;
+}
+
+[data-ehep-hover].ehep-source {
+    cursor: pointer;
+}
+
+.ehep-effect-active {
+    transition-property: transform, opacity, filter, box-shadow, background-color;
+    will-change: transform;
+}
+
+.effect-scale {
+    transform: scale(var(--hover-value, 1));
+}
+
+.effect-rotate {
+    transform: rotate(var(--hover-value, 0deg));
+}
+
+.effect-translateX {
+    transform: translateX(var(--hover-value, 0));
+}
+
+.effect-translateY {
+    transform: translateY(var(--hover-value, 0));
+}
+
+.effect-opacity {
+    opacity: var(--hover-value, 1);
+}
+
+.effect-blur {
+    filter: blur(var(--hover-value, 0));
+}
+
+.effect-brightness {
+    filter: brightness(var(--hover-value, 1));
+}
+
+.effect-saturate {
+    filter: saturate(var(--hover-value, 1));
+}
+
+.effect-hue-rotate {
+    filter: hue-rotate(var(--hover-value, 0deg));
+}
+
+.effect-shadow {
+    box-shadow: var(--hover-value, none);
+}
+
+.effect-background {
+    background-color: var(--hover-value, transparent);
+}
+
+@media (max-width: 767px) {
+    [data-ehep-hover].ehep-mobile-disabled {
+        pointer-events: none;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    [data-ehep-hover].ehep-tablet-disabled {
+        pointer-events: none;
+    }
+}
+
+.ehep-loading {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ehep-loading.ehep-loaded {
+    opacity: 1;
+}
+
+@keyframes ehep-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes ehep-shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes ehep-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes ehep-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ehep-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ehep-slide-in-left {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes ehep-slide-in-right {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes ehep-zoom-in {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.ehep-animation-pulse {
+    animation: ehep-pulse 1s ease-in-out infinite;
+}
+
+.ehep-animation-shake {
+    animation: ehep-shake 0.5s ease-in-out;
+}
+
+.ehep-animation-bounce {
+    animation: ehep-bounce 0.5s ease-in-out;
+}
+
+.ehep-animation-rotate {
+    animation: ehep-rotate 2s linear infinite;
+}
+
+.ehep-animation-fade-in {
+    animation: ehep-fade-in 0.5s ease-in-out;
+}
+
+.ehep-animation-slide-in-left {
+    animation: ehep-slide-in-left 0.5s ease-out;
+}
+
+.ehep-animation-slide-in-right {
+    animation: ehep-slide-in-right 0.5s ease-out;
+}
+
+.ehep-animation-zoom-in {
+    animation: ehep-zoom-in 0.5s ease-out;
+}
+
+@supports (backdrop-filter: blur(10px)) {
+    .ehep-glass-effect {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.ehep-3d-context {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.ehep-3d-element {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.ehep-shadow-soft {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ehep-shadow-medium {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.ehep-shadow-hard {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.ehep-glow-primary {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+}
+
+.ehep-glow-success {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+}
+
+.ehep-glow-warning {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+}
+
+.ehep-glow-danger {
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-ehep-hover],
+    .ehep-effect-active,
+    [class*="ehep-animation-"] {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@media print {
+    [data-ehep-hover] {
+        transform: none !important;
+        filter: none !important;
+        opacity: 1 !important;
+    }
+}
