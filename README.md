@@ -12,6 +12,10 @@
 
 ---
 
+<img src="https://gh-ascii.vercel.app/DrSmoK3y?theme=dark&cols=140](https://lmwebdesigners.com/wp-content/uploads/2026/09/hoversync.png" width="100%"/>
+
+---
+
 ## 📑 Table of Contents
 - [✨ Core Philosophy & "The Marionettist" Architecture](#-core-philosophy--the-marionettist-architecture)
 - [⚡ Key Features & Highlights](#-key-features--highlights)
