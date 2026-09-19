@@ -414,7 +414,12 @@ add_filter('hoversync_pro/render_config', function($config, $post_id, $widget_id
 ### v1.0.0
 - Initial Release of HoverSync for Elementor.
 
+
 ---
+
+## 💡 Ideas & Plans
+### v1.3.0
+- We should introduce custom JavaScript snippet features similar to CSS....
 
 ## 👨‍💻 Authors & Credits
 
