@@ -71,7 +71,7 @@ class EHEP_Controls {
         $element->add_control(
             'ehep_heading_config',
             [
-                'label' => esc_html__('⚙ Identity & Role', 'elementor-hover-effects'),
+                'label' => esc_html__('Identity & Role', 'elementor-hover-effects'),
                 'type' => \Elementor\Controls_Manager::HEADING,
                 'separator' => 'before',
                 'condition' => [ 'ehep_enable' => 'yes' ],
@@ -161,7 +161,7 @@ class EHEP_Controls {
         $element->add_control(
             'ehep_heading_effects',
             [
-                'label' => esc_html__('🎯 Target Relationships', 'elementor-hover-effects'),
+                'label' => esc_html__('Target Relationships & Effects', 'elementor-hover-effects'),
                 'type' => \Elementor\Controls_Manager::HEADING,
                 'separator' => 'before',
                 'condition' => [ 
@@ -206,20 +206,21 @@ class EHEP_Controls {
                 'type' => Controls_Manager::SELECT,
                 'default' => 'scale',
                 'options' => [
-                    'scale' => esc_html__('📏 Scale (Zoom)', 'elementor-hover-effects'),
-                    'rotate' => esc_html__('🔄 Rotation', 'elementor-hover-effects'),
-                    'translateX' => esc_html__('↔ Horizontal Move', 'elementor-hover-effects'),
-                    'translateY' => esc_html__('↕ Vertical Move', 'elementor-hover-effects'),
-                    'parallax' => esc_html__('🧊 3D Parallax Movement', 'elementor-hover-effects'),
-                    'opacity' => esc_html__('👻 Opacity (Fade)', 'elementor-hover-effects'),
-                    'blur' => esc_html__('🌫️ Glass Blur', 'elementor-hover-effects'),
-                    'grayscale' => esc_html__('🌑 Grayscale', 'elementor-hover-effects'),
-                    'contrast' => esc_html__('🌓 Contrast', 'elementor-hover-effects'),
-                    'brightness' => esc_html__('☀️ Brightness', 'elementor-hover-effects'),
-                    'background' => esc_html__('🎨 Background Color', 'elementor-hover-effects'),
-                    'tilt' => esc_html__('📐 3D Tilt Effect', 'elementor-hover-effects'),
-                    'text_reveal' => esc_html__('📝 Text Reveal (Split)', 'elementor-hover-effects'),
-                    'custom' => esc_html__('💻 Custom CSS Properties', 'elementor-hover-effects'),
+                    'scale' => esc_html__('Scale (Zoom)', 'elementor-hover-effects'),
+                    'rotate' => esc_html__('Rotation', 'elementor-hover-effects'),
+                    'translateX' => esc_html__('Horizontal Move', 'elementor-hover-effects'),
+                    'translateY' => esc_html__('Vertical Move', 'elementor-hover-effects'),
+                    'parallax' => esc_html__('3D Parallax Movement', 'elementor-hover-effects'),
+                    'opacity' => esc_html__('Opacity (Fade)', 'elementor-hover-effects'),
+                    'blur' => esc_html__('Glass Blur', 'elementor-hover-effects'),
+                    'grayscale' => esc_html__('Grayscale', 'elementor-hover-effects'),
+                    'contrast' => esc_html__('Contrast', 'elementor-hover-effects'),
+                    'brightness' => esc_html__('Brightness', 'elementor-hover-effects'),
+                    'background' => esc_html__('Background Color', 'elementor-hover-effects'),
+                    'color' => esc_html__('Text / Heading Color', 'elementor-hover-effects'),
+                    'tilt' => esc_html__('3D Gyro Tilt', 'elementor-hover-effects'),
+                    'text_reveal' => esc_html__('Text Reveal (Split)', 'elementor-hover-effects'),
+                    'custom' => esc_html__('Custom CSS Properties', 'elementor-hover-effects'),
                 ],
             ]
         );
@@ -309,14 +310,15 @@ class EHEP_Controls {
             ]
         );
 
-        // Background Color
+        // Background & Text Color
         $repeater->add_control(
             'effect_value_color',
             [
-                'label' => esc_html__('Background Color', 'elementor-hover-effects'),
+                'label' => esc_html__('Color', 'elementor-hover-effects'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '#ffeb3b',
-                'condition' => [ 'effect_type' => 'background' ],
+                'default' => '#a855f7',
+                'description' => esc_html__('Select background color or text/heading color.', 'elementor-hover-effects'),
+                'condition' => [ 'effect_type' => ['background', 'color'] ],
             ]
         );
 
@@ -374,7 +376,7 @@ class EHEP_Controls {
                 'label' => esc_html__('Effects Layer Manager', 'elementor-hover-effects'),
                 'type' => Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
-                'title_field' => '<i class="eicon-star"></i> {{{ effect_type }}} > {{{ target_selector }}}',
+                'title_field' => '{{{ effect_type }}} ➔ {{{ target_selector }}}',
                 'button_text' => 'ADD EFFECT',
                 'condition' => [
                     'ehep_enable' => 'yes',
@@ -454,7 +456,7 @@ class EHEP_Controls {
              return $target['effect_value_intensity']['size'] * 10 . 'px';
         }
 
-        if ($type === 'background') {
+        if (in_array($type, ['background', 'color'])) {
              return $target['effect_value_color'];
         }
 
