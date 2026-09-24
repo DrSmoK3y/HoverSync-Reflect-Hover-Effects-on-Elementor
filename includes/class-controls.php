@@ -36,7 +36,7 @@ class EHEP_Controls {
         $element->start_controls_section(
             'ehep_hover_effects_section',
             [
-                'label' => esc_html__('HOVERSYNC PRO ➜', 'elementor-hover-effects'),
+                'label' => esc_html__('HOVERSYNC PRO', 'elementor-hover-effects'),
                 'tab' => \Elementor\Controls_Manager::TAB_ADVANCED,
             ]
         );
@@ -51,20 +51,6 @@ class EHEP_Controls {
                 'label_off' => esc_html__('Disabled', 'elementor-hover-effects'),
                 'return_value' => 'yes',
                 'description' => esc_html__('Power up this element with advanced cross-element logic.', 'elementor-hover-effects'),
-            ]
-        );
-
-        $element->add_control(
-            'ehep_editor_preview',
-            [
-                'label' => esc_html__('Live Preview in Editor', 'elementor-hover-effects'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
-                'default' => 'yes',
-                'label_on' => esc_html__('On', 'elementor-hover-effects'),
-                'label_off' => esc_html__('Off', 'elementor-hover-effects'),
-                'return_value' => 'yes',
-                'description' => esc_html__('Turn off if the editor feels laggy.', 'elementor-hover-effects'),
-                'condition' => [ 'ehep_enable' => 'yes' ],
             ]
         );
         
@@ -93,57 +79,6 @@ class EHEP_Controls {
                 'condition' => [ 'ehep_enable' => 'yes' ],
             ]
         );
-
-        $element->add_control(
-            'ehep_event_mode',
-            [
-                'label' => esc_html__('Trigger Event', 'elementor-hover-effects'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'hover',
-                'options' => [
-                    'hover' => esc_html__('Mouse Hover (Standard)', 'elementor-hover-effects'),
-                    'click' => esc_html__('Mouse Click (Toggle)', 'elementor-hover-effects'),
-                    'scroll' => esc_html__('Scroll Enter (ScrollTrigger)', 'elementor-hover-effects'),
-                ],
-                'condition' => [ 
-                    'ehep_enable' => 'yes',
-                    'ehep_trigger_type!' => 'target'
-                ],
-            ]
-        );
-
-        $element->add_control(
-            'ehep_scroll_viewport',
-            [
-                'label' => esc_html__('Viewport Trigger Point', 'elementor-hover-effects'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['%'],
-                'range' => [
-                    '%' => [ 'min' => 0, 'max' => 100, 'step' => 1 ]
-                ],
-                'default' => [ 'size' => 50, 'unit' => '%' ],
-                'description' => esc_html__('Animation starts when element reaches this % of screen height. (0 = Top, 50 = Center, 100 = Bottom)', 'elementor-hover-effects'),
-                'condition' => [ 
-                    'ehep_enable' => 'yes',
-                    'ehep_event_mode' => 'scroll'
-                ],
-            ]
-        );
-
-        $element->add_control(
-            'ehep_stagger',
-            [
-                'label' => esc_html__('Stagger Delay (Seconds)', 'elementor-hover-effects'),
-                'type' => \Elementor\Controls_Manager::NUMBER,
-                'default' => 0.1,
-                'min' => 0,
-                'step' => 0.1,
-                'description' => esc_html__('Delay between multiple elements if your selector targets a class.', 'elementor-hover-effects'),
-                'condition' => [ 
-                    'ehep_enable' => 'yes',
-                ],
-            ]
-        );
         
         $element->add_control(
             'ehep_element_id',
@@ -154,14 +89,17 @@ class EHEP_Controls {
                 'placeholder' => 'my-custom-id',
                 'description' => esc_html__('Required for targeting. Use letters, numbers, and dashes only.', 'elementor-hover-effects'),
                 'label_block' => true,
-                'condition' => [ 'ehep_enable' => 'yes' ],
+                'condition' => [
+                    'ehep_enable' => 'yes',
+                    'ehep_trigger_type' => ['target', 'both'],
+                ],
             ]
         );
 
         $element->add_control(
             'ehep_heading_effects',
             [
-                'label' => esc_html__('Target Relationships & Effects', 'elementor-hover-effects'),
+                'label' => esc_html__('Target Relationships', 'elementor-hover-effects'),
                 'type' => \Elementor\Controls_Manager::HEADING,
                 'separator' => 'before',
                 'condition' => [ 
@@ -179,26 +117,12 @@ class EHEP_Controls {
             [
                 'label' => esc_html__('Target CSS Selector', 'elementor-hover-effects'),
                 'type' => Controls_Manager::TEXT,
-                'placeholder' => '#my-id or .my-class',
+                'placeholder' => '#my-id',
                 'label_block' => true,
-                'description' => esc_html__('Identify the element to animate using its ID (#) or Class (.).', 'elementor-hover-effects'),
+                'description' => esc_html__('Identify the element to animate using its ID (#).', 'elementor-hover-effects'),
             ]
         );
         
-        $repeater->add_control(
-            'engine_type',
-            [
-                'label' => esc_html__('Animation Engine', 'elementor-hover-effects'),
-                'type' => Controls_Manager::SELECT,
-                'default' => 'gsap',
-                'options' => [
-                    'css'  => esc_html__('Legacy CSS (Basic)', 'elementor-hover-effects'),
-                    'gsap' => esc_html__('GSAP Ultra (Core Upgrade)', 'elementor-hover-effects'),
-                ],
-                'description' => esc_html__('GSAP provides smoother performance and advanced easing.', 'elementor-hover-effects'),
-            ]
-        );
-
         $repeater->add_control(
             'effect_type',
             [
@@ -210,48 +134,12 @@ class EHEP_Controls {
                     'rotate' => esc_html__('Rotation', 'elementor-hover-effects'),
                     'translateX' => esc_html__('Horizontal Move', 'elementor-hover-effects'),
                     'translateY' => esc_html__('Vertical Move', 'elementor-hover-effects'),
-                    'parallax' => esc_html__('3D Parallax Movement', 'elementor-hover-effects'),
                     'opacity' => esc_html__('Opacity (Fade)', 'elementor-hover-effects'),
                     'blur' => esc_html__('Glass Blur', 'elementor-hover-effects'),
                     'grayscale' => esc_html__('Grayscale', 'elementor-hover-effects'),
-                    'contrast' => esc_html__('Contrast', 'elementor-hover-effects'),
-                    'brightness' => esc_html__('Brightness', 'elementor-hover-effects'),
                     'background' => esc_html__('Background Color', 'elementor-hover-effects'),
-                    'color' => esc_html__('Text / Heading Color', 'elementor-hover-effects'),
-                    'tilt' => esc_html__('3D Gyro Tilt', 'elementor-hover-effects'),
-                    'text_reveal' => esc_html__('Text Reveal (Split)', 'elementor-hover-effects'),
                     'custom' => esc_html__('Custom CSS Properties', 'elementor-hover-effects'),
                 ],
-            ]
-        );
-
-        $repeater->add_control(
-            'ehep_scroll_scrub',
-            [
-                'label' => esc_html__('Scrub Animation', 'elementor-hover-effects'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
-                'default' => '',
-                'label_on' => esc_html__('Yes', 'elementor-hover-effects'),
-                'label_off' => esc_html__('No', 'elementor-hover-effects'),
-                'return_value' => 'yes',
-                'description' => esc_html__('Animation follows scroll progress instead of playing once.', 'elementor-hover-effects'),
-                'condition' => [ 
-                    'engine_type' => 'gsap',
-                ],
-            ]
-        );
-
-        $repeater->add_control(
-            'parallax_speed',
-            [
-                'label' => esc_html__('Parallax Depth (Speed)', 'elementor-hover-effects'),
-                'type' => Controls_Manager::SLIDER,
-                'range' => [
-                    'px' => [ 'min' => -50, 'max' => 50, 'step' => 1 ]
-                ],
-                'default' => [ 'size' => 5 ],
-                'description' => esc_html__('Relative speed for multi-layer depth feel.', 'elementor-hover-effects'),
-                'condition' => [ 'effect_type' => 'parallax' ],
             ]
         );
         
@@ -301,24 +189,22 @@ class EHEP_Controls {
         $repeater->add_control(
             'effect_value_intensity',
             [
-                'label' => esc_html__('Intensity', 'elementor-hover-effects'),
+                'label' => esc_html__('Intensity (0-1)', 'elementor-hover-effects'),
                 'type' => Controls_Manager::SLIDER,
-                'range' => [ 'px' => [ 'min' => 0, 'max' => 5, 'step' => 0.1 ] ],
+                'range' => [ 'px' => [ 'min' => 0, 'max' => 1, 'step' => 0.1 ] ],
                 'default' => [ 'size' => 0.5 ],
-                'description' => esc_html__('For opacity/grayscale (0-1), For blur (px), For contrast/brightness (>1 increases).', 'elementor-hover-effects'),
-                'condition' => [ 'effect_type' => ['opacity', 'grayscale', 'blur', 'contrast', 'brightness'] ],
+                'condition' => [ 'effect_type' => ['opacity', 'grayscale', 'blur'] ],
             ]
         );
 
-        // Background & Text Color
+        // Background Color
         $repeater->add_control(
             'effect_value_color',
             [
-                'label' => esc_html__('Color', 'elementor-hover-effects'),
+                'label' => esc_html__('Background Color', 'elementor-hover-effects'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '#a855f7',
-                'description' => esc_html__('Select background color or text/heading color.', 'elementor-hover-effects'),
-                'condition' => [ 'effect_type' => ['background', 'color'] ],
+                'default' => '#ffeb3b',
+                'condition' => [ 'effect_type' => 'background' ],
             ]
         );
 
@@ -336,29 +222,6 @@ class EHEP_Controls {
         );
 
         $repeater->add_control(
-            'gsap_easing',
-            [
-                'label' => esc_html__('GSAP Easing', 'elementor-hover-effects'),
-                'type' => Controls_Manager::SELECT,
-                'default' => 'power2.out',
-                'options' => [
-                    'none' => esc_html__('Linear (Steady)', 'elementor-hover-effects'),
-                    'power1.out' => esc_html__('Light (Power 1)', 'elementor-hover-effects'),
-                    'power2.out' => esc_html__('Medium (Power 2)', 'elementor-hover-effects'),
-                    'power3.out' => esc_html__('Strong (Power 3)', 'elementor-hover-effects'),
-                    'power4.out' => esc_html__('Extreme (Power 4)', 'elementor-hover-effects'),
-                    'expo.out' => esc_html__('Exponential (Sharp)', 'elementor-hover-effects'),
-                    'circ.out' => esc_html__('Circular', 'elementor-hover-effects'),
-                    'back.out' => esc_html__('Overshoot (Back)', 'elementor-hover-effects'),
-                    'elastic.out' => esc_html__('Rubber Band (Elastic)', 'elementor-hover-effects'),
-                    'bounce.out' => esc_html__('Bouncy', 'elementor-hover-effects'),
-                    'steps(5)' => esc_html__('Staggered Steps (Retro)', 'elementor-hover-effects'),
-                ],
-                'condition' => [ 'engine_type' => 'gsap' ],
-            ]
-        );
-
-        $repeater->add_control(
             'effect_duration',
             [
                 'label' => esc_html__('Duration (ms)', 'elementor-hover-effects'),
@@ -366,7 +229,7 @@ class EHEP_Controls {
                 'default' => 300,
                 'min' => 0,
                 'step' => 50,
-                'description' => esc_html__('Time in milliseconds. High-impact easings like Bounce or Elastic need 800ms+ to be visible.', 'elementor-hover-effects'),
+                'description' => esc_html__('Time in milliseconds. 1000ms = 1 second.', 'elementor-hover-effects'),
             ]
         );
 
@@ -376,7 +239,7 @@ class EHEP_Controls {
                 'label' => esc_html__('Effects Layer Manager', 'elementor-hover-effects'),
                 'type' => Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
-                'title_field' => '{{{ effect_type }}} ➔ {{{ target_selector }}}',
+                'title_field' => '{{{ effect_type }}} > {{{ target_selector }}}',
                 'button_text' => 'ADD EFFECT',
                 'condition' => [
                     'ehep_enable' => 'yes',
@@ -407,11 +270,7 @@ class EHEP_Controls {
                     'selector' => $target['target_selector'],
                     'type' => $target['effect_type'],
                     'val' => $this->resolve_value($target),
-                    'dur' => $target['effect_duration'],
-                    'engine' => $target['engine_type'] ?? 'css',
-                    'ease' => $target['gsap_easing'] ?? 'power2.out',
-                    'parallax' => $target['parallax_speed']['size'] ?? 0,
-                    'scrub' => $target['ehep_scroll_scrub'] === 'yes'
+                    'dur' => $target['effect_duration']
                 ];
             }
         }
@@ -419,10 +278,6 @@ class EHEP_Controls {
         $config = [
             'id' => $element_id,
             'role' => $settings['ehep_trigger_type'],
-            'event' => $settings['ehep_event_mode'] ?? 'hover',
-            'scrollViewport' => $settings['ehep_scroll_viewport']['size'] ?? 50,
-            'stagger' => (float)($settings['ehep_stagger'] ?? 0),
-            'editorPreview' => $settings['ehep_editor_preview'] === 'yes',
             'fx' => $clean_targets
         ];
         
@@ -448,7 +303,7 @@ class EHEP_Controls {
              return $target['effect_value_rotate']['size'] . 'deg';
         }
         
-        if (in_array($type, ['opacity', 'grayscale', 'contrast', 'brightness'])) {
+        if (in_array($type, ['opacity', 'grayscale'])) {
              return $target['effect_value_intensity']['size'];
         }
 
@@ -456,7 +311,7 @@ class EHEP_Controls {
              return $target['effect_value_intensity']['size'] * 10 . 'px';
         }
 
-        if (in_array($type, ['background', 'color'])) {
+        if ($type === 'background') {
              return $target['effect_value_color'];
         }
 
