@@ -9,6 +9,8 @@
 
 > **Codename: The Marionettist** 🎭  
 > Just as a master puppeteer pulls invisible strings to bring multiple distant marionettes to life in perfect synchrony, **HoverSync Pro** connects any trigger element on your page with any number of receiver target elements across the entire DOM tree — without parent-child constraints or coding friction.
+>
+> This plugin isn't for beginners; you must have basic knowledge of Elementor
 
 ---
 <div align="center">
